@@ -5,6 +5,9 @@ pipeline{
     }
     environment {
         SCANNER_HOME=tool 'sonar-scanner'
+        BUILD_NUMBER=sh(script: 'echo ${BUILD_NUMBER}', returnStdout: true).trim()
+        IMAGE_NAME = "suhaibmdv/dotnet-monitoring"
+        IMAGE_TAG = "${BUILD_NUMBER}"
     }
     stages {
         stage('clean workspace'){
@@ -47,38 +50,58 @@ pipeline{
             steps{
                 script{
                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){
-                       sh "make image"
+                       // Update Makefile commands or use direct docker commands
+                       sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
+                       sh "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${IMAGE_NAME}:latest"
                     }
                 }
             }
         }
         stage("TRIVY"){
             steps{
-                sh "trivy image suhaibmdv/dotnet-monitoring:latest > trivy.txt"
+                sh "trivy image ${IMAGE_NAME}:${IMAGE_TAG} > trivy.txt"
             }
         }
         stage("Docker Push"){
             steps{
                 script{
                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){
-                       sh "make push"
+                       sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
+                       sh "docker push ${IMAGE_NAME}:latest"
                     }
                 }
             }
         }
         stage("Deploy to container"){
             steps{
-                sh "docker run -d --name dotnet -p 5000:5000 suhaibmdv/dotnet-monitoring:latest"
+                script {
+                    // Remove existing container if it exists
+                    sh 'docker rm -f dotnet || true'
+                    // Run new container with the new image
+                    sh "docker run -d --name dotnet -p 5000:5000 ${IMAGE_NAME}:${IMAGE_TAG}"
+                }
             }
         }
         stage('Deploy to k8s'){
             steps{
                 dir('K8S') {
-                  withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'kubernetes', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
-                    sh 'kubectl apply -f deployment.yaml'
-                   }
+                    script {
+                        // Update deployment.yaml with new image tag
+                        sh "sed -i 's|${IMAGE_NAME}:latest|${IMAGE_NAME}:${IMAGE_TAG}|g' deployment.yaml"
+                        
+                        withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'kubernetes', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
+                            sh 'kubectl apply -f deployment.yaml'
+                        }
+                    }
                 }
             }
+        }
+    }
+    post {
+        always {
+            // Clean up local Docker images to prevent disk space issues
+            sh "docker rmi ${IMAGE_NAME}:${IMAGE_TAG} || true"
+            sh "docker rmi ${IMAGE_NAME}:latest || true"
         }
     }
 }
