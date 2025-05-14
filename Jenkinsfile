@@ -50,8 +50,9 @@ pipeline{
             steps{
                 script{
                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){
-                       // Update Makefile commands or use direct docker commands
-                       sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
+                       // Use the Makefile with the environment variable
+                       sh "IMAGE_TAG=${IMAGE_TAG} make image"
+                       // Also tag as latest
                        sh "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${IMAGE_NAME}:latest"
                     }
                 }
@@ -66,7 +67,9 @@ pipeline{
             steps{
                 script{
                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){
-                       sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
+                       // Use the make push command
+                       sh "IMAGE_TAG=${IMAGE_TAG} make push"
+                       // Also push the latest tag
                        sh "docker push ${IMAGE_NAME}:latest"
                     }
                 }
