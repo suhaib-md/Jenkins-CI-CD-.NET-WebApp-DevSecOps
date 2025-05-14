@@ -1,0 +1,92 @@
+
+Report Summary
+
+┌──────────────────────────────────────────────────────────────────────────────────┬─────────────┬─────────────────┬─────────┐
+│                                      Target                                      │    Type     │ Vulnerabilities │ Secrets │
+├──────────────────────────────────────────────────────────────────────────────────┼─────────────┼─────────────────┼─────────┤
+│ suhaibmdv/dotnet-monitoring:latest (alpine 3.20.5)                               │   alpine    │        6        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼─────────────┼─────────────────┼─────────┤
+│ app/dotnet-demoapp.deps.json                                                     │ dotnet-core │        7        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼─────────────┼─────────────────┼─────────┤
+│ usr/share/dotnet/shared/Microsoft.AspNetCore.App/6.0.36/Microsoft.AspNetCore.Ap- │ dotnet-core │        0        │    -    │
+│ p.deps.json                                                                      │             │                 │         │
+├──────────────────────────────────────────────────────────────────────────────────┼─────────────┼─────────────────┼─────────┤
+│ usr/share/dotnet/shared/Microsoft.NETCore.App/6.0.36/Microsoft.NETCore.App.deps- │ dotnet-core │        0        │    -    │
+│ .json                                                                            │             │                 │         │
+└──────────────────────────────────────────────────────────────────────────────────┴─────────────┴─────────────────┴─────────┘
+Legend:
+- '-': Not scanned
+- '0': Clean (no security findings detected)
+
+
+For OSS Maintainers: VEX Notice
+--------------------------------
+If you're an OSS maintainer and Trivy has detected vulnerabilities in your project that you believe are not actually exploitable, consider issuing a VEX (Vulnerability Exploitability eXchange) statement.
+VEX allows you to communicate the actual status of vulnerabilities in your project, improving security transparency and reducing false positives for your users.
+Learn more and start using VEX: https://trivy.dev/v0.62/docs/supply-chain/vex/repo#publishing-vex-documents
+
+To disable this notice, set the TRIVY_DISABLE_VEX_NOTICE environment variable.
+
+
+suhaibmdv/dotnet-monitoring:latest (alpine 3.20.5)
+==================================================
+Total: 6 (UNKNOWN: 2, LOW: 0, MEDIUM: 2, HIGH: 2, CRITICAL: 0)
+
+┌────────────┬────────────────┬──────────┬────────┬───────────────────┬───────────────┬─────────────────────────────────────────────────────────────┐
+│  Library   │ Vulnerability  │ Severity │ Status │ Installed Version │ Fixed Version │                            Title                            │
+├────────────┼────────────────┼──────────┼────────┼───────────────────┼───────────────┼─────────────────────────────────────────────────────────────┤
+│ libcrypto3 │ CVE-2024-12797 │ HIGH     │ fixed  │ 3.3.2-r1          │ 3.3.3-r0      │ openssl: RFC7250 handshakes with unauthenticated servers    │
+│            │                │          │        │                   │               │ don't abort as expected                                     │
+│            │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2024-12797                  │
+│            ├────────────────┼──────────┤        │                   ├───────────────┼─────────────────────────────────────────────────────────────┤
+│            │ CVE-2024-13176 │ MEDIUM   │        │                   │ 3.3.2-r2      │ openssl: Timing side-channel in ECDSA signature computation │
+│            │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2024-13176                  │
+├────────────┼────────────────┼──────────┤        │                   ├───────────────┼─────────────────────────────────────────────────────────────┤
+│ libssl3    │ CVE-2024-12797 │ HIGH     │        │                   │ 3.3.3-r0      │ openssl: RFC7250 handshakes with unauthenticated servers    │
+│            │                │          │        │                   │               │ don't abort as expected                                     │
+│            │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2024-12797                  │
+│            ├────────────────┼──────────┤        │                   ├───────────────┼─────────────────────────────────────────────────────────────┤
+│            │ CVE-2024-13176 │ MEDIUM   │        │                   │ 3.3.2-r2      │ openssl: Timing side-channel in ECDSA signature computation │
+│            │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2024-13176                  │
+├────────────┼────────────────┼──────────┤        ├───────────────────┼───────────────┼─────────────────────────────────────────────────────────────┤
+│ musl       │ CVE-2025-26519 │ UNKNOWN  │        │ 1.2.5-r0          │ 1.2.5-r1      │ musl libc 0.9.13 through 1.2.5 before 1.2.6 has an          │
+│            │                │          │        │                   │               │ out-of-bounds write ......                                  │
+│            │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2025-26519                  │
+├────────────┤                │          │        │                   │               │                                                             │
+│ musl-utils │                │          │        │                   │               │                                                             │
+│            │                │          │        │                   │               │                                                             │
+│            │                │          │        │                   │               │                                                             │
+└────────────┴────────────────┴──────────┴────────┴───────────────────┴───────────────┴─────────────────────────────────────────────────────────────┘
+
+app/dotnet-demoapp.deps.json (dotnet-core)
+==========================================
+Total: 7 (UNKNOWN: 0, LOW: 0, MEDIUM: 4, HIGH: 2, CRITICAL: 1)
+
+┌───────────────────────────────────────┬────────────────┬──────────┬────────┬───────────────────┬──────────────────────┬────────────────────────────────────────────────────────┐
+│                Library                │ Vulnerability  │ Severity │ Status │ Installed Version │    Fixed Version     │                         Title                          │
+├───────────────────────────────────────┼────────────────┼──────────┼────────┼───────────────────┼──────────────────────┼────────────────────────────────────────────────────────┤
+│ Azure.Identity                        │ CVE-2023-36414 │ HIGH     │ fixed  │ 1.3.0             │ 1.10.2               │ Azure Identity SDK Remote Code Execution Vulnerability │
+│                                       │                │          │        │                   │                      │ https://avd.aquasec.com/nvd/cve-2023-36414             │
+│                                       ├────────────────┼──────────┤        │                   ├──────────────────────┼────────────────────────────────────────────────────────┤
+│                                       │ CVE-2024-29992 │ MEDIUM   │        │                   │ 1.11.0               │ Azure Identity Library for .NET Information Disclosure │
+│                                       │                │          │        │                   │                      │ Vulnerability                                          │
+│                                       │                │          │        │                   │                      │ https://avd.aquasec.com/nvd/cve-2024-29992             │
+│                                       ├────────────────┤          │        │                   ├──────────────────────┼────────────────────────────────────────────────────────┤
+│                                       │ CVE-2024-35255 │          │        │                   │ 1.11.4               │ azure-identity: Azure Identity Libraries Elevation of  │
+│                                       │                │          │        │                   │                      │ Privilege Vulnerability in                             │
+│                                       │                │          │        │                   │                      │ github.com/Azure/azure-sdk-for-go/sdk/azidentity       │
+│                                       │                │          │        │                   │                      │ https://avd.aquasec.com/nvd/cve-2024-35255             │
+├───────────────────────────────────────┼────────────────┤          │        ├───────────────────┼──────────────────────┼────────────────────────────────────────────────────────┤
+│ Microsoft.IdentityModel.JsonWebTokens │ CVE-2024-21319 │          │        │ 6.14.1            │ 5.7.0, 6.34.0, 7.1.2 │ dotnet: .NET Denial of Service Vulnerability           │
+│                                       │                │          │        │                   │                      │ https://avd.aquasec.com/nvd/cve-2024-21319             │
+├───────────────────────────────────────┼────────────────┼──────────┤        ├───────────────────┼──────────────────────┼────────────────────────────────────────────────────────┤
+│ Newtonsoft.Json                       │ CVE-2024-21907 │ HIGH     │        │ 11.0.2            │ 13.0.1               │ Improper Handling of Exceptional Conditions in         │
+│                                       │                │          │        │                   │                      │ Newtonsoft.Json                                        │
+│                                       │                │          │        │                   │                      │ https://avd.aquasec.com/nvd/cve-2024-21907             │
+├───────────────────────────────────────┼────────────────┼──────────┤        ├───────────────────┼──────────────────────┼────────────────────────────────────────────────────────┤
+│ System.Drawing.Common                 │ CVE-2021-24112 │ CRITICAL │        │ 5.0.0             │ 4.7.2, 5.0.3         │ dotnet: Remote Code Execution Vulnerability            │
+│                                       │                │          │        │                   │                      │ https://avd.aquasec.com/nvd/cve-2021-24112             │
+├───────────────────────────────────────┼────────────────┼──────────┤        ├───────────────────┼──────────────────────┼────────────────────────────────────────────────────────┤
+│ System.IdentityModel.Tokens.Jwt       │ CVE-2024-21319 │ MEDIUM   │        │ 6.14.1            │ 5.7.0, 6.34.0, 7.1.2 │ dotnet: .NET Denial of Service Vulnerability           │
+│                                       │                │          │        │                   │                      │ https://avd.aquasec.com/nvd/cve-2024-21319             │
+└───────────────────────────────────────┴────────────────┴──────────┴────────┴───────────────────┴──────────────────────┴────────────────────────────────────────────────────────┘
